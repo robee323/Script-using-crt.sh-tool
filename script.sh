@@ -56,14 +56,20 @@ fi
 # Combining and removing duplicates from subdomains
 all_subdomains=$(echo -e "$first_subdomains\n$second_subdomains\n$third_subdomains\n$fourth_subdomains" | sort -u)
 
-# The listing of subdomains
-echo -e "$all_subdomains"
+# The listing of subdomains in an HTML table
+html_output="<html><body><h1>Subdomains for $domain</h1><table border='1'><tr><th>Subdomain</th></tr>"
 
-# Creation of output file
-output_file="$domain.txt"
+for subdomain in $all_subdomains; do
+    html_output+="<tr><td>$subdomain</td></tr>"
+done
+
+html_output+="</table></body></html>"
+
+# Creation of output file in HTML format
+output_file="$domain.html"
 
 # Saving subdomains to the output file
-echo -e "$all_subdomains" > "$output_file"
+echo -e "$html_output" > "$output_file"
 
 # Checking the number of subdomains and displaying appropriate messages
 num_subdomains=$(echo -e "$all_subdomains" | wc -l)
